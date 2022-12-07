@@ -47,9 +47,21 @@ const groceryList = [
   }
 );*/
 
+/*app.get("/groceries/:item",(req,res)=>{
+    console.log(req.params.item);
+    res.send(200); 
+});*/
+
 app.get("/groceries",(req, res, next) => {
     res.send(groceryList);
 }); 
+
+//findByName
+app.get('/groceries/:item', (req, res)=>{
+  const {item} = req.params;
+  const groceryItem = groceryList.find((g)=>g.item === item);
+  res.send(groceryItem);
+});
 
 app.post("/groceries", (req, res) => {
   console.log(req.body);
@@ -57,7 +69,3 @@ app.post("/groceries", (req, res) => {
   res.send(201);
 });
 
-app.use((req,res,next)=>{
-    console.log(req.url);
-    next(); 
-})
