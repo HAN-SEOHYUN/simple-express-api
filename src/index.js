@@ -1,5 +1,6 @@
-const { response } = require("express");
 const express = require("express");
+const groceriesRoute = require('./routes/groceries');
+const marketsRoute = require('./routes/markets');
 
 const app = express(); //give instance of application
 const PORT = 3001;
@@ -11,22 +12,10 @@ app.use((req,res,next)=>{
     next(); 
 });
 
+// app.use(groceriesRoute);
+app.use('/api/v1/groceries',groceriesRoute); //prefix the api
+app.use('/api/v1/markets',marketsRoute); 
 app.listen(PORT, () => console.log(`Running on port ${PORT}`));
-
-const groceryList = [
-  {
-    item: "milk",
-    quantity: 2,
-  },
-  {
-    item: "cereal",
-    quantity: 2,
-  },
-  {
-    item: "bread",
-    quantity: 1,
-  },
-];
 
 /*app.get(
   "/groceries",
@@ -52,20 +41,5 @@ const groceryList = [
     res.send(200); 
 });*/
 
-app.get("/groceries",(req, res, next) => {
-    res.send(groceryList);
-}); 
 
-//findByName
-app.get('/groceries/:item', (req, res)=>{
-  const {item} = req.params;
-  const groceryItem = groceryList.find((g)=>g.item === item);
-  res.send(groceryItem);
-});
-
-app.post("/groceries", (req, res) => {
-  console.log(req.body);
-  groceryList.push(req.body);
-  res.send(201);
-});
 
