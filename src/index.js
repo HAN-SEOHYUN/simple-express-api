@@ -6,8 +6,7 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
 
-const groceryRouter = require('./routes/grocery');
-app.use('/grocery',groceryRouter);
-
+const jjigaeRouter = require('./routes/jjigae');
+app.use('/jjigae',jjigaeRouter);
 
 app.listen(PORT, () => console.log(`Running on port ${PORT}`));
