@@ -5,20 +5,20 @@ const db = require('../db');
 
 router.get('',(req,res,next)=>{
     db.getAllJjigae((rows)=>{
-        res.send(rows);
+        res.send(rows); 
     });
 });
 
-router.get('/:name',(req,res)=>{ // 라우터의 매개변수
-    //예를 들어 /:id/:name 경로가 있으면 ":id"속성과 ":name"속성을 req.params.id, req.params.name으로 사용할 수 있다.
-    const item = req.params.item;
-    db.getJjigaeById(item, (row)=>{
+router.get('/:id',(req,res)=>{
+    const key = 'id';
+
+    db.getJjigaeByKey(key, req.params.id, (row)=>{
         res.send(row);
     });
 });
 
-router.post('/', (req,res,next)=>{
-    const param = JSON.parse(JSON.stringify(req.body));
+router.post('/', (req,res)=>{
+    const param = req.body;
     db.insertJjigae(param, ()=>{
         res.redirect('/jjigae');
     });
@@ -31,5 +31,23 @@ router.delete('/:id',(req,res)=>{
     });
 });
 
+router.put('/', (req,res) => {
+    const key = 'name';
+    const value = "'"+ req.body.name + "'";
+
+    let detailResponse;
+    db.getJjigaeByKey( key,  value, (row)=>{
+        detailResponse = row;
+        console.log('data : ' , detailResponse);
+    });
+
+    if (detailResponse == "") {
+        console.log("없음");
+    }
+
+    db.updateJjigaeByName(req.body, ()=>{
+        res.redirect('/jjigae');    
+    });
+});
 
 module.exports = router;

@@ -8,5 +8,5 @@ app.use(bodyParser.urlencoded());
 
 const jjigaeRouter = require('./routes/jjigae');
 app.use('/jjigae',jjigaeRouter);
-
+  
 app.listen(PORT, () => console.log(`Running on port ${PORT}`));
